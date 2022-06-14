@@ -1,0 +1,6 @@
+---
+creation_rules:
+- path_regex: .*.yaml   #This config applies recursively to all sub-directories. 
+  encrypted_regex: '^(data|stringData)$'
+  pgp: >-
+    C7BF20970A71ED7802E83EEADA11BEB6FF8B65C8
