@@ -25,10 +25,10 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  # Enabling sops decription
-  decryption:
-    # Use the sops provider
-    provider: sops
-    secretRef:
-      # Reference the new 'sops-gpg' secret
-      name: sops-gpg
+#   # Enabling sops decription
+#   decryption:
+#     # Use the sops provider
+#     provider: sops
+#     secretRef:
+#       # Reference the new 'sops-gpg' secret
+#       name: sops-gpg
