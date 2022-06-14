@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: rucio-helm-repo
+  namespace: rucio
+spec:
+  interval: 1m0s
+  url: https://rucio.github.io/helm-charts/
+
