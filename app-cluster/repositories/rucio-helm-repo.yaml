@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: rucio-helm-repo
+  name: rucio-helm-repo- YOUARESTUPID
   namespace: rucio
 spec:
   interval: 1m0s
