@@ -1,234 +1,234 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: eosc-servers
-  namespace: rucio
-  annotations:
-    flux.weave.works/automated: "false"
-spec:
-  interval: 5m
-  releaseName: eosc-servers
-  chart:
-    spec:
-      chart: rucio-server
-      version: "1.28.3"
-      sourceRef:
-        kind: HelmRepository
-        name: rucio-helm-repo
-        namespace: rucio
-      interval: 1m
-  valuesFrom:
-    - kind: Secret
-      name: db-secret
-      valuesKey: values.yaml
-  values:
-    replicaCount: 2
-    authReplicaCount: 2
-    traceReplicaCount: 0
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: eosc-servers
+#   namespace: rucio
+#   annotations:
+#     flux.weave.works/automated: "false"
+# spec:
+#   interval: 5m
+#   releaseName: eosc-servers
+#   chart:
+#     spec:
+#       chart: rucio-server
+#       version: "1.28.3"
+#       sourceRef:
+#         kind: HelmRepository
+#         name: rucio-helm-repo
+#         namespace: rucio
+#       interval: 1m
+#   valuesFrom:
+#     - kind: Secret
+#       name: db-secret
+#       valuesKey: values.yaml
+#   values:
+#     replicaCount: 2
+#     authReplicaCount: 2
+#     traceReplicaCount: 0
 
-    exposeErrorLogs:
-      server: True
-      authServer: True
-      traceServer: True
+#     exposeErrorLogs:
+#       server: True
+#       authServer: True
+#       traceServer: True
 
-    errorLogsExporterResources:
-      limits:
-        cpu: 30m
-        memory: 50Mi
-      requests:
-        cpu: 20m
-        memory: 20Mi
+#     errorLogsExporterResources:
+#       limits:
+#         cpu: 30m
+#         memory: 50Mi
+#       requests:
+#         cpu: 20m
+#         memory: 20Mi
 
-    image:
-      repository: rucio/rucio-server
-      tag: release-1.28.5
-      pullPolicy: Always
+#     image:
+#       repository: rucio/rucio-server
+#       tag: release-1.28.5
+#       pullPolicy: Always
 
-    # monitoring:
-    #   enabled: true
-    #   exporterPort: 8080
-    #   targetPort: 8080
-    #   interval: 30s
-    #   telemetryPath: /metrics
-    #   namespace: monitoring
-    #   labels:
-    #     release: prometheus-operator
+#     # monitoring:
+#     #   enabled: true
+#     #   exporterPort: 8080
+#     #   targetPort: 8080
+#     #   interval: 30s
+#     #   telemetryPath: /metrics
+#     #   namespace: monitoring
+#     #   labels:
+#     #     release: prometheus-operator
 
-    httpd_config:
-      mpm_mode: "event"
-      timeout: "300"
-      enable_status: "True"
-      keep_alive: "On"
-      keep_alive_timeout: "5"
-      max_keep_alive_requests: "128"
-      server_limit: "10"
-      start_servers: "4"
-      thread_limit: "128"
-      threads_per_child: "128"
-      min_spare_threads: "256"
-      max_spare_threads: "512"
-      max_request_workers: "1280"
-      max_connections_per_child: "2048"
+#     httpd_config:
+#       mpm_mode: "event"
+#       timeout: "300"
+#       enable_status: "True"
+#       keep_alive: "On"
+#       keep_alive_timeout: "5"
+#       max_keep_alive_requests: "128"
+#       server_limit: "10"
+#       start_servers: "4"
+#       thread_limit: "128"
+#       threads_per_child: "128"
+#       min_spare_threads: "256"
+#       max_spare_threads: "512"
+#       max_request_workers: "1280"
+#       max_connections_per_child: "2048"
 
-    # service:
-    #   type: ClusterIP
-    #   port: 443
-    #   targetPort: 443
-    #   protocol: TCP
-    #   name: https
-    #   annotations: {}
-    #     # loadbalancer.openstack.org/network-id: "<id>"
-    #     # service.beta.kubernetes.io/openstack-internal-load-balancer: "true"
-    #     # loadbalancer.openstack.org/cascade-delete: "false"
+#     # service:
+#     #   type: ClusterIP
+#     #   port: 443
+#     #   targetPort: 443
+#     #   protocol: TCP
+#     #   name: https
+#     #   annotations: {}
+#     #     # loadbalancer.openstack.org/network-id: "<id>"
+#     #     # service.beta.kubernetes.io/openstack-internal-load-balancer: "true"
+#     #     # loadbalancer.openstack.org/cascade-delete: "false"
 
-    traceService:
-      type: ClusterIP
-      port: 80
-      targetPort: 80
-      protocol: TCP
-      name: http
-      annotations: {}
+#     traceService:
+#       type: ClusterIP
+#       port: 80
+#       targetPort: 80
+#       protocol: TCP
+#       name: http
+#       annotations: {}
 
-    strategy:
-      type: RollingUpdate
-      rollingUpdate:
-        maxSurge: 1
-        maxUnavailable: 1
+#     strategy:
+#       type: RollingUpdate
+#       rollingUpdate:
+#         maxSurge: 1
+#         maxUnavailable: 1
 
-    serverResources:
-      limits:
-        cpu: "4000m"
-        memory: "4000Mi"
-      requests:
-        cpu: "2000m"
-        memory: "2000Mi"
+#     serverResources:
+#       limits:
+#         cpu: "4000m"
+#         memory: "4000Mi"
+#       requests:
+#         cpu: "2000m"
+#         memory: "2000Mi"
 
-    authServerResources:
-      limits: 
-        cpu: "1000m"
-        memory: "1000Mi"
-      requests:
-        cpu: "200m"
-        memory: "500Mi"
+#     authServerResources:
+#       limits: 
+#         cpu: "1000m"
+#         memory: "1000Mi"
+#       requests:
+#         cpu: "200m"
+#         memory: "500Mi"
 
-    minReadySeconds:
-      server: 5
-      authServer: 5
-      traceServer: 5
+#     minReadySeconds:
+#       server: 5
+#       authServer: 5
+#       traceServer: 5
 
-    livenessProbe:
-      server:
-        initialDelaySeconds: 10
-        periodSeconds: 20
-        timeoutSeconds: 5
-      authServer:
-        initialDelaySeconds: 10
-        periodSeconds: 20
-        timeoutSeconds: 5
-      traceServer:
-        initialDelaySeconds: 10
-        periodSeconds: 20
-        timeoutSeconds: 5
+#     livenessProbe:
+#       server:
+#         initialDelaySeconds: 10
+#         periodSeconds: 20
+#         timeoutSeconds: 5
+#       authServer:
+#         initialDelaySeconds: 10
+#         periodSeconds: 20
+#         timeoutSeconds: 5
+#       traceServer:
+#         initialDelaySeconds: 10
+#         periodSeconds: 20
+#         timeoutSeconds: 5
 
-    logFormat:
-      server: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Auth-Token}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
-      authServer: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Auth-Token}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
-      traceServer: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Auth-Token}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
+#     logFormat:
+#       server: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Auth-Token}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
+#       authServer: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Auth-Token}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
+#       traceServer: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Auth-Token}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
 
-    metricsExporterResources:
-      limits:
-        cpu: 30m
-        memory: 50Mi
-      requests:
-        cpu: 20m
-        memory: 20Mi
+#     metricsExporterResources:
+#       limits:
+#         cpu: 30m
+#         memory: 50Mi
+#       requests:
+#         cpu: 20m
+#         memory: 20Mi
 
-    additionalSecrets:
-      idpsecrets:
-        secretName: idpsecrets
-        mountPath: /opt/rucio/etc/
-        subPaths:
-          - idpsecrets.json
+#     additionalSecrets:
+#       idpsecrets:
+#         secretName: idpsecrets
+#         mountPath: /opt/rucio/etc/
+#         subPaths:
+#           - idpsecrets.json
 
-      rse-accounts:
-        secretName: rse-accounts
-        mountPath: /opt/rucio/etc/
-        subPaths:
-          - rse-accounts.cfg
-      # scheme-patch:
-      #   secretName: scheme-patch
-      #   mountPath: /patch/
-      #   subPaths:
-      #     - scheme_map.diff
-      # policy-patch:
-      #   secretName: policy-patch
-      #   mountPath: /patch/
-      #   subPaths:
-      #     - policy.diff
+#       rse-accounts:
+#         secretName: rse-accounts
+#         mountPath: /opt/rucio/etc/
+#         subPaths:
+#           - rse-accounts.cfg
+#       # scheme-patch:
+#       #   secretName: scheme-patch
+#       #   mountPath: /patch/
+#       #   subPaths:
+#       #     - scheme_map.diff
+#       # policy-patch:
+#       #   secretName: policy-patch
+#       #   mountPath: /patch/
+#       #   subPaths:
+#       #     - policy.diff
 
-    automaticRestart:
-      enabled: 1
-      image:
-        repository: bitnami/kubectl
-        tag: 1.18
-        pullPolicy: IfNotPresent
-      schedule: "17 1 * * *"
+#     automaticRestart:
+#       enabled: 1
+#       image:
+#         repository: bitnami/kubectl
+#         tag: 1.18
+#         pullPolicy: IfNotPresent
+#       schedule: "17 1 * * *"
 
-    ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: nginx
-        nginx.ingress.kubernetes.io/frontend-entry-points: http, https
-        nginx.ingress.kubernetes.io/ssl-redirect: "false"
-      hosts:
-        - "eosc-main.cern.ch"
-      path: /
-      tls:
-        - secretName: eosc-rucio.tls-secret
+#     ingress:
+#       enabled: true
+#       annotations:
+#         kubernetes.io/ingress.class: nginx
+#         nginx.ingress.kubernetes.io/frontend-entry-points: http, https
+#         nginx.ingress.kubernetes.io/ssl-redirect: "false"
+#       hosts:
+#         - "eosc-main.cern.ch"
+#       path: /
+#       tls:
+#         - secretName: eosc-rucio.tls-secret
 
-    serverType:
-      server: flask
-      authServer: flask
+#     serverType:
+#       server: flask
+#       authServer: flask
 
-    useSSL:
-      authServer: true
+#     useSSL:
+#       authServer: true
 
-    authService:
-      type: ClusterIP
-      port: 443
-      targetPort: 443
-      protocol: TCP
-      name: https
+#     authService:
+#       type: ClusterIP
+#       port: 443
+#       targetPort: 443
+#       protocol: TCP
+#       name: https
 
-    authIngress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: nginx
-        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-        nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      hosts:
-        - "eosc-auth.cern.ch"
-      path: /
+#     authIngress:
+#       enabled: true
+#       annotations:
+#         kubernetes.io/ingress.class: nginx
+#         nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+#         nginx.ingress.kubernetes.io/ssl-redirect: "true"
+#       hosts:
+#         - "eosc-auth.cern.ch"
+#       path: /
 
-    # optional_config:
-    #   RUCIO_CFG_API_ENDPOINTS: "auth, accountlimits, accounts, config, credentials, dids, export, heartbeats, identities, import, lifetime_exceptions, locks, meta, ping, redirect, replicas, requests, rses, rules, scopes, subscriptions"
+#     # optional_config:
+#     #   RUCIO_CFG_API_ENDPOINTS: "auth, accountlimits, accounts, config, credentials, dids, export, heartbeats, identities, import, lifetime_exceptions, locks, meta, ping, redirect, replicas, requests, rses, rules, scopes, subscriptions"
 
-    config:
+#     config:
 
-      database:
-        pool_size: 10
-        max_overflow: 20 
+#       database:
+#         pool_size: 10
+#         max_overflow: 20 
 
-      policy:
-        permission: "escape"
-        schema: "escape"
-        # lfn2pfn_algorithm_default: "identity"
+#       policy:
+#         permission: "escape"
+#         schema: "escape"
+#         # lfn2pfn_algorithm_default: "identity"
 
-      oidc:
-        idpsecrets: "/opt/rucio/etc/idpsecrets.json"
-        admin_issuer: "escape"
-        expected_audience: "rucio"
+#       oidc:
+#         idpsecrets: "/opt/rucio/etc/idpsecrets.json"
+#         admin_issuer: "escape"
+#         expected_audience: "rucio"
 
-      webui:
-        auth_type: "oidc"
-        auth_issuer: "escape"
+#       webui:
+#         auth_type: "oidc"
+#         auth_issuer: "escape"
