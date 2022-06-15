@@ -44,15 +44,15 @@ spec:
       tag: release-1.28.5
       pullPolicy: Always
 
-    monitoring:
-      enabled: true
-      exporterPort: 8080
-      targetPort: 8080
-      interval: 30s
-      telemetryPath: /metrics
-      namespace: monitoring
-      labels:
-        release: prometheus-operator
+    # monitoring:
+    #   enabled: true
+    #   exporterPort: 8080
+    #   targetPort: 8080
+    #   interval: 30s
+    #   telemetryPath: /metrics
+    #   namespace: monitoring
+    #   labels:
+    #     release: prometheus-operator
 
     httpd_config:
       mpm_mode: "event"
