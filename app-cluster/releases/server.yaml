@@ -143,12 +143,12 @@ spec:
         cpu: 20m
         memory: 20Mi
 
-#     additionalSecrets:
-#       idpsecrets:
-#         secretName: idpsecrets
-#         mountPath: /opt/rucio/etc/
-#         subPaths:
-#           - idpsecrets.json
+    additionalSecrets:
+      idpsecrets:
+        secretName: idpsecrets
+        mountPath: /opt/rucio/etc/
+        subPaths:
+          - idpsecrets.json
 
 #       rse-accounts:
 #         secretName: rse-accounts
