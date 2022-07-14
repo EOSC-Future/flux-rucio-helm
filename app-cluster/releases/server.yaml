@@ -41,7 +41,7 @@ spec:
 
     image:
       repository: rucio/rucio-server
-      tag: release-1.28.5
+      tag: release-1.28.7
       pullPolicy: Always
 
     # monitoring:
@@ -143,18 +143,20 @@ spec:
         cpu: 20m
         memory: 20Mi
 
-    additionalSecrets:
-      idpsecrets:
-        secretName: idpsecrets
-        mountPath: /opt/rucio/etc/
-        subPaths:
-          - idpsecrets.json
+#     additionalSecrets:
+#       idpsecrets:
+#         secretName: idpsecrets
+#         mountPath: /opt/rucio/etc/
+#         subPaths:
+#           - idpsecrets.json
 
-      rse-accounts:
-        secretName: rse-accounts
-        mountPath: /opt/rucio/etc/
-        subPaths:
-          - rse-accounts.cfg
+#       rse-accounts:
+#         secretName: rse-accounts
+#         mountPath: /opt/rucio/etc/
+#         subPaths:
+#           - rse-accounts.cfg
+          
+          
       # scheme-patch:
       #   secretName: scheme-patch
       #   mountPath: /patch/
@@ -219,16 +221,16 @@ spec:
         pool_size: 10
         max_overflow: 20 
 
-      policy:
-        permission: "escape"
-        schema: "escape"
-        # lfn2pfn_algorithm_default: "identity"
+#       policy:
+#         permission: "escape"
+#         schema: "escape"
+#         # lfn2pfn_algorithm_default: "identity"
 
-      oidc:
-        idpsecrets: "/opt/rucio/etc/idpsecrets.json"
-        admin_issuer: "escape"
-        expected_audience: "rucio"
+#       oidc:
+#         idpsecrets: "/opt/rucio/etc/idpsecrets.json"
+#         admin_issuer: "escape"
+#         expected_audience: "rucio"
 
-      webui:
-        auth_type: "oidc"
-        auth_issuer: "escape"
+#       webui:
+#         auth_type: "oidc"
+#         auth_issuer: "escape"
